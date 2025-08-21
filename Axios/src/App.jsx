@@ -1,34 +1,28 @@
+import axios from 'axios'
+import React from 'react'
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const [data, setData] = useState([])
 
+  const getData = async() =>{
+     const response = await axios.get(' https://picsum.photos/v2/list?page=2&limit=100')
+     setData(response.data)
+
+  }
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className='p-5'>
+      <button onClick={getData} className='bg-teal-700 text-white font-semibold text-2xl m-2 rounded px-2 py-1 active:scale-95'>Get Data</button>
+      <div className='p-5 m-5 bg-gray-200'>
+        {data.map( function(elem, idx){
+          return  <div kay={idx} className='bg-gray-500 w-full text-black flex intems-center rounded p-5 m-5 justify-between'>
+            <img className='h-20 ' src={elem.download_url} alt="" />
+            <h1 className='justify-content'>{elem.author}</h1>
+            
+          </div>
+        })}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </div>
   )
 }
 
